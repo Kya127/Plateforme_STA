@@ -1,0 +1,106 @@
+{% extends 'ui/base.html' %}
+
+{% block title %}Créer une entrée{% endblock %}
+
+{% block content %}
+
+<div class="max-w-3xl mx-auto">
+
+  <!-- HEADER -->
+  <div class="mb-8">
+    <h1 class="text-2xl font-display font-bold" style="color:#0A0A0F;">
+      Nouvelle entrée d'activité
+    </h1>
+    <p class="text-sm mt-1" style="color:#9898A8;">
+      Remplissez les informations ci-dessous pour ajouter une nouvelle note.
+    </p>
+  </div>
+
+  <!-- CARD -->
+  <div class="bg-white rounded-2xl border p-8 shadow-sm"
+       style="border-color:#E2E2EA;">
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-6">
+      {% csrf_token %}
+
+      <!-- TITRE -->
+      <div>
+        <label class="text-sm font-medium block mb-2" style="color:#3D3D4E;">
+          Titre *
+        </label>
+        {{ form.titre }}
+      </div>
+
+      <!-- CATEGORIE -->
+      <div>
+        <label class="text-sm font-medium block mb-2" style="color:#3D3D4E;">
+          Catégorie *
+        </label>
+        {{ form.categorie }}
+      </div>
+
+      <!-- CONTENU -->
+      <div>
+        <label class="text-sm font-medium block mb-2" style="color:#3D3D4E;">
+          Description
+        </label>
+        {{ form.contenu }}
+      </div>
+
+      <!-- IMAGE UPLOAD (style moderne zone drop) -->
+      <div>
+  <label class="text-sm font-medium block mb-2" style="color:#3D3D4E;">
+    Image / preuve
+  </label>
+
+  <!-- ZONE UPLOAD CUSTOM -->
+  <label for="id_image"
+         class="flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-8 cursor-pointer hover:border-[#2563EB] transition"
+         style="border-color:#E2E2EA; background:#FAFAFA;">
+
+    <!-- ICON -->
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="none"
+         stroke="#9898A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="17 8 12 3 7 8"/>
+      <line x1="12" y1="3" x2="12" y2="15"/>
+    </svg>
+
+    <p class="text-sm mt-3 text-center" style="color:#9898A8;">
+      Glissez une image ou cliquez pour sélectionner
+    </p>
+
+    <p class="text-xs mt-1 text-center" style="color:#C0C0C0;">
+      PNG, JPG, JPEG (max 10MB)
+    </p>
+
+  </label>
+
+  <!-- INPUT CACHE (IMPORTANT) -->
+  <div class="hidden">
+    {{ form.image }}
+  </div>
+</div>
+      <!-- ACTIONS -->
+      <div class="flex justify-end gap-3 pt-4">
+
+        <a href="{% url 'liste_notes' %}"
+           class="px-5 py-2.5 rounded-xl border text-sm font-medium hover:bg-gray-50"
+           style="border-color:#E2E2EA; color:#0A0A0F;">
+          Annuler
+        </a>
+
+        <button type="submit"
+                class="px-5 py-2.5 rounded-xl text-sm font-semibold text-white"
+                style="background:#0A0A0F;">
+          Enregistrer
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

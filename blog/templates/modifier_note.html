@@ -1,0 +1,81 @@
+{% extends 'ui/base.html' %}
+
+{% block title %}Modifier la note{% endblock %}
+
+{% block content %}
+
+<div class="max-w-3xl mx-auto">
+
+  <!-- HEADER -->
+  <div class="mb-8">
+    <h1 class="text-2xl font-display font-bold" style="color:#0A0A0F;">
+      Modifier l’entrée
+    </h1>
+    <p class="text-sm mt-1" style="color:#9898A8;">
+      Mettre à jour les informations de cette activité.
+    </p>
+  </div>
+
+  <!-- CARD -->
+  <div class="bg-white rounded-2xl border p-8"
+       style="border-color:#E2E2EA;">
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-6">
+      {% csrf_token %}
+
+      <!-- TITRE -->
+      <div>
+        <label class="text-sm font-medium block mb-2" style="color:#3D3D4E;">
+          Titre
+        </label>
+        {{ form.titre }}
+      </div>
+
+      <!-- CATEGORIE -->
+      <div>
+        <label class="text-sm font-medium block mb-2" style="color:#3D3D4E;">
+          Catégorie
+        </label>
+        {{ form.categorie }}
+      </div>
+
+      <!-- CONTENU -->
+      <div>
+        <label class="text-sm font-medium block mb-2" style="color:#3D3D4E;">
+          Description
+        </label>
+        {{ form.contenu }}
+      </div>
+
+      <!-- IMAGE -->
+      <div>
+        <label class="text-sm font-medium block mb-2" style="color:#3D3D4E;">
+          Image / preuve
+        </label>
+        {{ form.image }}
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="flex justify-end gap-3 pt-4">
+
+        <a href="{% url 'liste_notes' %}"
+           class="px-5 py-2.5 rounded-xl border text-sm font-medium"
+           style="border-color:#E2E2EA; color:#0A0A0F;">
+          Annuler
+        </a>
+
+        <button type="submit"
+                class="px-5 py-2.5 rounded-xl text-sm font-semibold text-white"
+                style="background:#2563EB;">
+          Mettre à jour
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+{% endblock %}

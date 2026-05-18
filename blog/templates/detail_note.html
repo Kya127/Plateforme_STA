@@ -1,0 +1,82 @@
+{% extends 'ui/base.html' %}
+
+{% block title %}Détail de la note{% endblock %}
+
+{% block content %}
+
+<div class="max-w-4xl mx-auto">
+
+  <!-- HEADER -->
+  <div class="mb-6">
+    <h1 class="text-2xl font-display font-bold" style="color:#0A0A0F;">
+      {{ details_note.titre }}
+    </h1>
+
+    <p class="text-sm mt-1" style="color:#9898A8;">
+      Détail complet de l’activité enregistrée
+    </p>
+  </div>
+
+  <!-- CARD PRINCIPALE -->
+  <div class="bg-white rounded-2xl border overflow-hidden card-hover"
+       style="border-color:#E2E2EA;">
+
+    <!-- IMAGE -->
+    {% if details_note.image %}
+    <div class="h-64 overflow-hidden bg-gray-100">
+      <img src="{{ details_note.image.url }}"
+           class="w-full h-full object-cover">
+    </div>
+    {% endif %}
+
+    <!-- CONTENU -->
+    <div class="p-6">
+
+      <!-- META -->
+      <div class="flex items-center justify-between mb-4">
+
+        <span class="text-xs px-3 py-1 rounded-lg"
+              style="background:#EFF4FF; color:#2563EB;">
+          {{ details_note.categorie }}
+        </span>
+
+        <span class="text-xs" style="color:#9898A8;">
+          {{ details_note.date_entree|date:"d M Y" }}
+        </span>
+
+      </div>
+
+      <!-- TEXTE -->
+      <p class="text-sm leading-relaxed mb-6"
+         style="color:#3D3D4E;">
+        {{ details_note.contenu }}
+      </p>
+
+      <!-- ACTIONS -->
+      {% if user == details_note.auteur %}
+
+      <div class="flex items-center gap-3">
+
+        <a href="{% url 'updatenote' details_note.pk %}"
+           class="px-4 py-2 rounded-xl text-sm font-medium"
+           style="background:#0A0A0F; color:#fff;">
+          Modifier
+        </a>
+
+        <a href="{% url 'deletenote' details_note.pk %}"
+           class="px-4 py-2 rounded-xl text-sm font-medium border"
+           style="border-color:#E2E2EA; color:#0A0A0F;">
+          Supprimer
+        </a>
+
+      </div>
+
+      {% endif %}
+
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,253 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}STA — Système de Traçabilité d'Activité{% endblock %}</title>
+  {% tailwind_css %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Syne', 'sans-serif'],
+            body: ['DM Sans', 'sans-serif'],
+          },
+          colors: {
+            ink: {
+              DEFAULT: '#0A0A0F',
+              soft: '#1C1C24',
+              muted: '#3D3D4E',
+            },
+            slate: {
+              surface: '#F4F4F7',
+              border: '#E2E2EA',
+              muted: '#9898A8',
+            },
+            accent: {
+              DEFAULT: '#2563EB',
+              light: '#EFF4FF',
+              dark: '#1D4ED8',
+            },
+          },
+          boxShadow: {
+            card: '0 1px 3px 0 rgba(10,10,15,0.06), 0 1px 2px -1px rgba(10,10,15,0.04)',
+            lift: '0 4px 16px 0 rgba(10,10,15,0.10)',
+            glow: '0 0 0 3px rgba(37,99,235,0.15)',
+          },
+          borderRadius: {
+            xl2: '1rem',
+            xl3: '1.5rem',
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: #F4F4F7; color: #0A0A0F; }
+    h1,h2,h3,h4,h5,h6 { font-family: 'Syne', sans-serif; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #F4F4F7; }
+    ::-webkit-scrollbar-thumb { background: #C7C7D4; border-radius: 99px; }
+    .sidebar-link { transition: background 0.18s, color 0.18s; }
+    .sidebar-link:hover { background: #EBEBF2; color: #0A0A0F; }
+    .sidebar-link.active { background: #0A0A0F; color: #fff; }
+    .btn-primary { transition: background 0.18s, box-shadow 0.18s, transform 0.12s; }
+    .btn-primary:hover { background: #1D4ED8; box-shadow: 0 4px 16px 0 rgba(37,99,235,0.25); transform: translateY(-1px); }
+    .btn-dark { transition: background 0.18s, box-shadow 0.18s, transform 0.12s; }
+    .btn-dark:hover { background: #1C1C24; box-shadow: 0 4px 16px 0 rgba(10,10,15,0.20); transform: translateY(-1px); }
+    .card-hover { transition: box-shadow 0.18s, transform 0.15s; }
+    .card-hover:hover { box-shadow: 0 4px 16px 0 rgba(10,10,15,0.10); transform: translateY(-2px); }
+    input:focus, textarea:focus, select:focus { outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); border-color: #2563EB; }
+    .fade-in { animation: fadeIn 0.35s ease both; }
+    @keyframes fadeIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: none; } }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="min-h-screen flex">
+ 
+  {% block full_page %}
+ 
+  <!-- Sidebar -->
+  <aside id="sidebar" class="fixed top-0 left-0 h-full w-[200px] bg-white border-r border-slate-border flex flex-col z-40 transition-transform duration-300"
+         style="border-color:#E2E2EA;">
+    <!-- Logo -->
+    <div class="px-5 pt-6 pb-4 flex items-center gap-2">
+      <div class="w-8 h-8 rounded-lg bg-ink-DEFAULT flex items-center justify-center flex-shrink-0"
+           style="background:#0A0A0F;">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <rect x="2" y="2" width="5" height="5" rx="1" fill="white"/>
+          <rect x="9" y="2" width="5" height="5" rx="1" fill="white" opacity=".7"/>
+          <rect x="2" y="9" width="5" height="5" rx="1" fill="white" opacity=".7"/>
+          <rect x="9" y="9" width="5" height="5" rx="1" fill="white" opacity=".4"/>
+        </svg>
+      </div>
+      <span class="font-display font-bold text-[17px] tracking-tight text-ink-DEFAULT" style="color:#0A0A0F;">STA</span>
+    </div>
+ 
+    <!-- Nav -->
+    <nav class="flex-1 px-3 pt-2 space-y-1 overflow-y-auto">
+      <a href="{% url 'liste_notes' %}"
+         class="sidebar-link {% block nav_dashboard %}{% endblock %} flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-ink-muted"
+         style="color:#3D3D4E;">
+        <span class="text-base">📊</span> Tableau de bord
+      </a>
+ 
+      <div class="pt-3 pb-1 px-3">
+        <p class="text-[10px] font-semibold uppercase tracking-widest text-slate-muted" style="color:#9898A8;">Activités</p>
+      </div>
+ 
+      <a href="{% url 'mesnotes' %}"
+         class="sidebar-link {% block nav_create %}{% endblock %} flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-ink-muted"
+         style="color:#3D3D4E;">
+        <span class="text-base">🗂️</span> Entrées d'activité
+      </a>
+ 
+      <a href="{% url 'liste_notes' %}"
+         class="sidebar-link {% block nav_list %}{% endblock %} flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-ink-muted"
+         style="color:#3D3D4E;">
+        <span class="text-base">📋</span> Journal d'activité
+      </a>
+ 
+      <div class="pt-3 pb-1 px-3">
+        <p class="text-[10px] font-semibold uppercase tracking-widest text-slate-muted" style="color:#9898A8;">Système</p>
+      </div>
+ 
+      <a href="#"
+         class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-ink-muted"
+         style="color:#3D3D4E;">
+        <span class="text-base">🔒</span> Sécurité & Accès
+      </a>
+ 
+      <a href="#"
+         class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-ink-muted"
+         style="color:#3D3D4E;">
+        <span class="text-base">⚙️</span> Paramètres
+      </a>
+    </nav>
+ 
+    <!-- User + Logout -->
+    <div class="px-3 py-4 border-t" style="border-color:#E2E2EA;">
+      {% if user.is_authenticated %}
+      <div class="flex items-center gap-2 px-2 py-2 mb-2">
+        <div class="w-7 h-7 rounded-full bg-accent-light flex items-center justify-center flex-shrink-0"
+             style="background:#EFF4FF;">
+          <span class="text-xs font-bold text-accent" style="color:#2563EB;">
+            {{ user.username|first|upper }}
+          </span>
+        </div>
+        <div class="min-w-0">
+          <p class="text-xs font-semibold text-ink-DEFAULT truncate" style="color:#0A0A0F;">{{ user.username }}</p>
+          <p class="text-[10px] text-slate-muted" style="color:#9898A8;">Connecté</p>
+        </div>
+      </div>
+      <form method="POST" action="{% url 'logout' %}" class="w-full">
+  {% csrf_token %}
+  <button type="submit"
+     class="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 transition-colors w-full">
+    
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+      <polyline points="16 17 21 12 16 7"/>
+      <line x1="21" y1="12" x2="9" y2="12"/>
+    </svg>
+
+    Déconnexion
+  </button>
+</form>
+      {% endif %}
+    </div>
+  </aside>
+ 
+  <!-- Main wrapper -->
+  <div class="flex-1 flex flex-col min-h-screen ml-[200px]">
+ 
+    <!-- Topbar -->
+    <header class="sticky top-0 z-30 bg-white border-b flex items-center justify-between px-6 h-14"
+            style="border-color:#E2E2EA;">
+      <!-- Mobile menu toggle -->
+      <button id="menu-toggle" class="lg:hidden p-2 rounded-lg hover:bg-slate-surface transition-colors" style="background:transparent;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A0A0F" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+ 
+      <!-- Search -->
+    {% if user.is_authenticated %}
+        <div class="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl"
+           style="background:#F4F4F7;">
+
+       <!-- Icon user -->
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="#9898A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21a8 8 0 0 0-16 0"/>
+           <circle cx="12" cy="7" r="4"/>
+        </svg>
+
+        <p class="text-sm font-medium" style="color:#0A0A0F;">
+         Bonjour <span style="color:#2563EB;">{{ user.username }}</span>
+        </p>
+
+        </div>
+    {% endif %}
+ 
+      <!-- Actions -->
+      <div class="flex items-center gap-3 ml-auto">
+        <a href="{% url 'mesnotes' %}"
+           class="btn-dark hidden sm:inline-flex items-center gap-2 bg-ink-DEFAULT text-white text-sm font-semibold px-4 py-2 rounded-xl"
+           style="background:#0A0A0F; color:#fff;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Créer une entrée
+        </a>
+        <button class="relative p-2 rounded-xl hover:bg-slate-surface transition-colors" style="background:transparent;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3D3D4E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          <span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-accent rounded-full" style="background:#2563EB;"></span>
+        </button>
+        {% if user.is_authenticated %}
+        <div class="w-8 h-8 rounded-full bg-ink-DEFAULT flex items-center justify-center cursor-pointer"
+             style="background:#0A0A0F;">
+          <span class="text-xs font-bold text-white">{{ user.username|first|upper }}</span>
+        </div>
+        {% endif %}
+      </div>
+    </header>
+ 
+    <!-- Page content -->
+    <main class="flex-1 p-6 fade-in">
+      {% block content %}{% endblock %}
+    </main>
+ 
+  </div>
+ 
+  {% endblock %}
+ 
+  <!-- Mobile sidebar overlay -->
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-30 hidden lg:hidden"></div>
+ 
+  <script>
+    const toggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        sidebar.classList.toggle('-translate-x-full');
+        overlay.classList.toggle('hidden');
+      });
+      overlay.addEventListener('click', () => {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('hidden');
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+{% extends 'ui/base.html' %}
+
+{% block content %}
+
+<div class="max-w-2xl mx-auto mt-10">
+
+  <!-- Title -->
+  <h1 class="text-2xl font-display font-bold mb-2" style="color:#0A0A0F;">
+    Supprimer la note
+  </h1>
+
+  <p class="text-sm mb-6" style="color:#9898A8;">
+    Cette action est irréversible.
+  </p>
+
+  <!-- Card danger -->
+  <div class="bg-white border rounded-2xl p-6" style="border-color:#E2E2EA;">
+
+    <!-- Warning block -->
+    <div class="flex items-start gap-3 mb-6">
+
+      <!-- ICON WARNING SVG (no emoji) -->
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center"
+           style="background:#FEE2E2;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+             stroke="#EF4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </div>
+
+      <div>
+        <p class="text-sm font-semibold" style="color:#0A0A0F;">
+          Vous êtes sur le point de supprimer :
+        </p>
+        <p class="text-lg font-bold" style="color:#0A0A0F;">
+          {{ object.titre }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <form method="POST" class="flex items-center gap-3">
+      {% csrf_token %}
+
+      <!-- DELETE BUTTON -->
+      <button type="submit"
+              class="px-5 py-2.5 rounded-xl text-white font-semibold"
+              style="background:#EF4444; transition: all 0.2s;"
+              onmouseover="this.style.transform='translateY(-2px)'"
+              onmouseout="this.style.transform='translateY(0)'">
+        Oui, supprimer
+      </button>
+
+      <!-- CANCEL BUTTON -->
+      <a href="{% url 'liste_notes' %}"
+         class="px-5 py-2.5 rounded-xl border font-semibold"
+         style="border-color:#E2E2EA; color:#0A0A0F; transition: all 0.2s;"
+         onmouseover="this.style.background='#F4F4F7'"
+         onmouseout="this.style.background='white'">
+        Annuler
+      </a>
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}
+
+

@@ -1,0 +1,27 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STA</title>
+    {% tailwind_css %}
+</head>
+<body>
+
+    {% if user.is_authenticated %}
+        <p>Bonjour {{user.username}} </p>
+
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type='submit'>Déconnexion</button>
+        </form>
+    {% endif %}    
+   
+   
+    {% block content %}
+
+    {% endblock %}
+
+</body>
+</html>
