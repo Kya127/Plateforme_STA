@@ -83,4 +83,10 @@ class NoteDeleteView(LoginRequiredMixin ,DeleteView):
     success_url = reverse_lazy('liste_notes')
 
       
+class MesNotesView(LoginRequiredMixin, ListView):
+    model = Note
+    template_name = 'mesnotes.html'
+    context_object_name = 'mes_notes'
 
+    def get_queryset(self):
+        return Note.objects.filter(auteur=self.request.user)

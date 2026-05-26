@@ -18,30 +18,13 @@
             body: ['DM Sans', 'sans-serif'],
           },
           colors: {
-            ink: {
-              DEFAULT: '#0A0A0F',
-              soft: '#1C1C24',
-              muted: '#3D3D4E',
-            },
-            slate: {
-              surface: '#F4F4F7',
-              border: '#E2E2EA',
-              muted: '#9898A8',
-            },
-            accent: {
-              DEFAULT: '#2563EB',
-              light: '#EFF4FF',
-              dark: '#1D4ED8',
-            },
+            ink: { DEFAULT: '#0A0A0F', soft: '#1C1C24', muted: '#3D3D4E' },
+            slate: { surface: '#F4F4F7', border: '#E2E2EA', muted: '#9898A8' },
+            accent: { DEFAULT: '#2563EB', light: '#EFF4FF', dark: '#1D4ED8' },
           },
           boxShadow: {
             card: '0 1px 3px 0 rgba(10,10,15,0.06), 0 1px 2px -1px rgba(10,10,15,0.04)',
             lift: '0 4px 16px 0 rgba(10,10,15,0.10)',
-            glow: '0 0 0 3px rgba(37,99,235,0.15)',
-          },
-          borderRadius: {
-            xl2: '1rem',
-            xl3: '1.5rem',
           },
         }
       }
@@ -54,186 +37,299 @@
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: #F4F4F7; }
     ::-webkit-scrollbar-thumb { background: #C7C7D4; border-radius: 99px; }
-    .sidebar-link { transition: background 0.18s, color 0.18s; }
-    .sidebar-link:hover { background: #EBEBF2; color: #0A0A0F; }
-    .sidebar-link.active { background: #0A0A0F; color: #fff; }
-    .btn-primary { transition: background 0.18s, box-shadow 0.18s, transform 0.12s; }
-    .btn-primary:hover { background: #1D4ED8; box-shadow: 0 4px 16px 0 rgba(37,99,235,0.25); transform: translateY(-1px); }
+
+    /* ── Sidebar nav links ── */
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 7px 10px; border-radius: 10px;
+      font-size: 13px; font-weight: 500; color: #3D3D4E;
+      text-decoration: none; transition: background 0.16s, color 0.16s;
+      position: relative; cursor: pointer;
+    }
+    /* Icône pill colorée */
+    .nav-icon {
+      width: 28px; height: 28px; border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: transform 0.16s;
+    }
+    .sidebar-link:hover .nav-icon { transform: scale(1.1); }
+    .sidebar-link:hover { background: #F0F0F8; color: #0A0A0F; }
+
+    /* Couleurs icônes */
+    .ni-blue   { background: #EFF4FF; } .ni-blue   svg { stroke: #2563EB; }
+    .ni-violet { background: #F3F0FF; } .ni-violet svg { stroke: #7C3AED; }
+    .ni-green  { background: #F0FDF4; } .ni-green  svg { stroke: #16A34A; }
+    .ni-amber  { background: #FFFBEB; } .ni-amber  svg { stroke: #D97706; }
+    .ni-rose   { background: #FFF1F2; } .ni-rose   svg { stroke: #E11D48; }
+    .ni-sky    { background: #F0F9FF; } .ni-sky    svg { stroke: #0284C7; }
+    .ni-slate  { background: #F4F4F7; } .ni-slate  svg { stroke: #64748B; }
+    .ni-teal   { background: #F0FDFA; } .ni-teal   svg { stroke: #0D9488; }
+
+    /* État actif : fond teinté + trait coloré gauche */
+    .sidebar-link.active { color: #0A0A0F; font-weight: 600; }
+    .sidebar-link.active::before {
+      content: ''; position: absolute; left: 0; top: 18%; bottom: 18%;
+      width: 3px; border-radius: 0 3px 3px 0;
+    }
+    .sidebar-link.active.lnk-blue   { background: #EFF4FF; }
+    .sidebar-link.active.lnk-blue::before   { background: #2563EB; }
+    .sidebar-link.active.lnk-violet { background: #F3F0FF; }
+    .sidebar-link.active.lnk-violet::before { background: #7C3AED; }
+    .sidebar-link.active.lnk-green  { background: #F0FDF4; }
+    .sidebar-link.active.lnk-green::before  { background: #16A34A; }
+    .sidebar-link.active.lnk-amber  { background: #FFFBEB; }
+    .sidebar-link.active.lnk-amber::before  { background: #D97706; }
+    .sidebar-link.active.lnk-sky    { background: #F0F9FF; }
+    .sidebar-link.active.lnk-sky::before    { background: #0284C7; }
+    .sidebar-link.active.lnk-teal   { background: #F0FDFA; }
+    .sidebar-link.active.lnk-teal::before   { background: #0D9488; }
+    .sidebar-link.active.lnk-slate  { background: #F4F4F7; }
+    .sidebar-link.active.lnk-slate::before  { background: #64748B; }
+
+    /* ── Buttons ── */
     .btn-dark { transition: background 0.18s, box-shadow 0.18s, transform 0.12s; }
-    .btn-dark:hover { background: #1C1C24; box-shadow: 0 4px 16px 0 rgba(10,10,15,0.20); transform: translateY(-1px); }
+    .btn-dark:hover { background: #1C1C24 !important; box-shadow: 0 4px 16px 0 rgba(10,10,15,0.20); transform: translateY(-1px); }
     .card-hover { transition: box-shadow 0.18s, transform 0.15s; }
     .card-hover:hover { box-shadow: 0 4px 16px 0 rgba(10,10,15,0.10); transform: translateY(-2px); }
     input:focus, textarea:focus, select:focus { outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); border-color: #2563EB; }
     .fade-in { animation: fadeIn 0.35s ease both; }
     @keyframes fadeIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: none; } }
+
+    /* Séparateur section nav */
+    .nav-section-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #C0C0CE;
+      padding: 12px 10px 4px;
+    }
   </style>
   {% block extra_head %}{% endblock %}
 </head>
 <body class="min-h-screen flex">
- 
+
   {% block full_page %}
- 
-  <!-- Sidebar -->
-  <aside id="sidebar" class="fixed top-0 left-0 h-full w-[200px] bg-white border-r border-slate-border flex flex-col z-40 transition-transform duration-300"
-         style="border-color:#E2E2EA;">
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside id="sidebar"
+         class="fixed top-0 left-0 h-full w-[210px] bg-white flex flex-col z-40 transition-transform duration-300"
+         style="border-right: 1px solid #E8E8F0;">
+
     <!-- Logo -->
-    <div class="px-5 pt-6 pb-4 flex items-center gap-2">
-      <div class="w-8 h-8 rounded-lg bg-ink-DEFAULT flex items-center justify-center flex-shrink-0"
-           style="background:#0A0A0F;">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <rect x="2" y="2" width="5" height="5" rx="1" fill="white"/>
-          <rect x="9" y="2" width="5" height="5" rx="1" fill="white" opacity=".7"/>
-          <rect x="2" y="9" width="5" height="5" rx="1" fill="white" opacity=".7"/>
-          <rect x="9" y="9" width="5" height="5" rx="1" fill="white" opacity=".4"/>
+    <div class="px-4 pt-5 pb-4 flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+           style="background: linear-gradient(135deg, #1E40AF 0%, #2563EB 100%);">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+          <rect x="2" y="2" width="5" height="5" rx="1.2" fill="white"/>
+          <rect x="9" y="2" width="5" height="5" rx="1.2" fill="white" opacity=".8"/>
+          <rect x="2" y="9" width="5" height="5" rx="1.2" fill="white" opacity=".8"/>
+          <rect x="9" y="9" width="5" height="5" rx="1.2" fill="white" opacity=".5"/>
         </svg>
       </div>
-      <span class="font-display font-bold text-[17px] tracking-tight text-ink-DEFAULT" style="color:#0A0A0F;">STA</span>
+      <div>
+        <p class="font-display font-bold text-[16px] leading-tight tracking-tight" style="color:#0A0A0F;">STA</p>
+        <p class="text-[9px] leading-none" style="color:#B0B0C0;">Traçabilité d'Activité</p>
+      </div>
     </div>
- 
-    <!-- Nav -->
-    <nav class="flex-1 px-3 pt-2 space-y-1 overflow-y-auto">
-      <a href="{% url 'liste_notes' %}"
-         class="sidebar-link {% block nav_dashboard %}{% endblock %} flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-ink-muted"
-         style="color:#3D3D4E;">
-        <span class="text-base">📊</span> Tableau de bord
-      </a>
- 
-      <div class="pt-3 pb-1 px-3">
-        <p class="text-[10px] font-semibold uppercase tracking-widest text-slate-muted" style="color:#9898A8;">Activités</p>
-      </div>
- 
-      <a href="{% url 'mesnotes' %}"
-         class="sidebar-link {% block nav_create %}{% endblock %} flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-ink-muted"
-         style="color:#3D3D4E;">
-        <span class="text-base">🗂️</span> Entrées d'activité
-      </a>
- 
-      <a href="{% url 'liste_notes' %}"
-         class="sidebar-link {% block nav_list %}{% endblock %} flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-ink-muted"
-         style="color:#3D3D4E;">
-        <span class="text-base">📋</span> Journal d'activité
-      </a>
- 
-      <div class="pt-3 pb-1 px-3">
-        <p class="text-[10px] font-semibold uppercase tracking-widest text-slate-muted" style="color:#9898A8;">Système</p>
-      </div>
- 
-      <a href="#"
-         class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-ink-muted"
-         style="color:#3D3D4E;">
-        <span class="text-base">🔒</span> Sécurité & Accès
-      </a>
- 
-      <a href="#"
-         class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-ink-muted"
-         style="color:#3D3D4E;">
-        <span class="text-base">⚙️</span> Paramètres
-      </a>
-    </nav>
- 
-    <!-- User + Logout -->
-    <div class="px-3 py-4 border-t" style="border-color:#E2E2EA;">
-      {% if user.is_authenticated %}
-      <div class="flex items-center gap-2 px-2 py-2 mb-2">
-        <div class="w-7 h-7 rounded-full bg-accent-light flex items-center justify-center flex-shrink-0"
-             style="background:#EFF4FF;">
-          <span class="text-xs font-bold text-accent" style="color:#2563EB;">
-            {{ user.username|first|upper }}
-          </span>
-        </div>
-        <div class="min-w-0">
-          <p class="text-xs font-semibold text-ink-DEFAULT truncate" style="color:#0A0A0F;">{{ user.username }}</p>
-          <p class="text-[10px] text-slate-muted" style="color:#9898A8;">Connecté</p>
-        </div>
-      </div>
-      <form method="POST" action="{% url 'logout' %}" class="w-full">
-  {% csrf_token %}
-  <button type="submit"
-     class="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 transition-colors w-full">
-    
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-      <polyline points="16 17 21 12 16 7"/>
-      <line x1="21" y1="12" x2="9" y2="12"/>
-    </svg>
 
-    Déconnexion
-  </button>
+    <!-- Séparateur -->
+    <div class="mx-4 mb-2" style="height:1px; background:#F0F0F8;"></div>
+
+    <!-- Nav -->
+    <nav class="flex-1 px-3 overflow-y-auto space-y-0.5 pb-3">
+
+      <!-- PRINCIPAL -->
+      <p class="nav-section-label">Principal</p>
+
+      <a href="{% url 'liste_notes' %}"
+         class="sidebar-link lnk-blue {% block nav_dashboard %}{% endblock %}">
+        <span class="nav-icon ni-blue">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+            <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+            <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+            <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+          </svg>
+        </span>
+        Tableau de bord
+      </a>
+
+      <!-- ACTIVITÉS -->
+      <p class="nav-section-label">Activités</p>
+
+      <a href="{% url 'mesnotes' %}"
+         class="sidebar-link lnk-violet {% block nav_create %}{% endblock %}">
+        <span class="nav-icon ni-violet">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="12" y1="18" x2="12" y2="12"/>
+            <line x1="9" y1="15" x2="15" y2="15"/>
+          </svg>
+        </span>
+        Nouvelle entrée
+      </a>
+
+      <a href="{% url 'mes_notes' %}"
+         class="sidebar-link lnk-teal {% block nav_mynotes %}{% endblock %}">
+        <span class="nav-icon ni-teal">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"/>
+            <polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/>
+          </svg>
+        </span>
+        Mes notes
+      
+       
+
+      <a href="{% url 'liste_notes' %}"
+         class="sidebar-link lnk-green {% block nav_list %}{% endblock %}">
+        <span class="nav-icon ni-green">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+        </span>
+        Journal d'activité
+      </a>
+
+      <!-- SYSTÈME -->
+      <p class="nav-section-label">Système</p>
+
+      <a href="#"
+         class="sidebar-link lnk-amber">
+        <span class="nav-icon ni-amber">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+        </span>
+        Sécurité & Accès
+      </a>
+
+      <a href="#"
+         class="sidebar-link lnk-slate">
+        <span class="nav-icon ni-slate">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </span>
+        Paramètres
+      </a>
+
+    </nav>
+
+    <!-- ── User card + Déconnexion ── -->
+    <div class="px-3 py-3" style="border-top: 1px solid #F0F0F8;">
+      {% if user.is_authenticated %}
+      <!-- User info -->
+      <div class="flex items-center gap-2.5 px-2 py-2 mb-1 rounded-xl" style="background:#FAFAFA;">
+        <div class="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-xs text-white"
+             style="background: linear-gradient(135deg, #7C3AED, #2563EB);">
+          {{ user.username|first|upper }}
+        </div>
+        <div class="min-w-0 flex-1">
+          <p class="text-xs font-semibold truncate" style="color:#0A0A0F;">{{ user.username }}</p>
+          <div class="flex items-center gap-2">
+            <div class="w-1.5 h-1.5 rounded-full" style="background:#22C55E;"></div>
+            <p class="text-[10px]" style="color:#9898A8;">Connecté</p>
+          </div>
+        </div>
+      </div>
+      <!-- Logout -->
+      <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+
+    <button type="submit"
+            class="sidebar-link w-full flex items-center gap-3"
+            style="color:#E11D48; background:none; border:none; cursor:pointer;">
+
+        <span class="nav-icon ni-rose">
+            <svg width="14" height="14"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                <polyline points="16 17 21 12 16 7"/>
+                <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+        </span>
+
+        Déconnexion
+
+    </button>
 </form>
       {% endif %}
     </div>
+
   </aside>
- 
-  <!-- Main wrapper -->
-  <div class="flex-1 flex flex-col min-h-screen ml-[200px]">
- 
+
+  <!-- ══════════ MAIN WRAPPER ══════════ -->
+  <div class="flex-1 flex flex-col min-h-screen" style="margin-left: 185px;">
+
     <!-- Topbar -->
-    <header class="sticky top-0 z-30 bg-white border-b flex items-center justify-between px-6 h-14"
-            style="border-color:#E2E2EA;">
-      <!-- Mobile menu toggle -->
-      <button id="menu-toggle" class="lg:hidden p-2 rounded-lg hover:bg-slate-surface transition-colors" style="background:transparent;">
+    <header class="sticky top-0 z-30 bg-white flex items-center justify-between px-6 h-14"
+            style="border-bottom: 1px solid #E8E8F0;">
+
+      <!-- Mobile toggle -->
+      <button id="menu-toggle" class="lg:hidden p-2 rounded-lg transition-colors hover:bg-gray-100" style="background:transparent;">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A0A0F" stroke-width="2" stroke-linecap="round">
-          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
         </svg>
       </button>
- 
-      <!-- Search -->
-    {% if user.is_authenticated %}
-        <div class="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl"
-           style="background:#F4F4F7;">
 
-       <!-- Icon user -->
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-          stroke="#9898A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20 21a8 8 0 0 0-16 0"/>
-           <circle cx="12" cy="7" r="4"/>
-        </svg>
+      <!-- Search bar -->
 
-        <p class="text-sm font-medium" style="color:#0A0A0F;">
-         Bonjour <span style="color:#2563EB;">{{ user.username }}</span>
-        </p>
+      
 
-        </div>
-    {% endif %}
- 
-      <!-- Actions -->
-      <div class="flex items-center gap-3 ml-auto">
+      <!-- Right actions -->
+      <div class="flex items-center gap-2.5 ml-auto">
+        <!-- CTA créer entrée -->
         <a href="{% url 'mesnotes' %}"
-           class="btn-dark hidden sm:inline-flex items-center gap-2 bg-ink-DEFAULT text-white text-sm font-semibold px-4 py-2 rounded-xl"
-           style="background:#0A0A0F; color:#fff;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+           class="btn-dark hidden sm:inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-xl"
+           style="background:#0A0A0F; color:#fff; text-decoration:none;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
           </svg>
           Créer une entrée
         </a>
-        <button class="relative p-2 rounded-xl hover:bg-slate-surface transition-colors" style="background:transparent;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3D3D4E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+
+        <!-- Notifications -->
+        <button class="relative p-2 rounded-xl transition-colors hover:bg-gray-100" style="background:transparent;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
           </svg>
-          <span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-accent rounded-full" style="background:#2563EB;"></span>
+          <span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full" style="background:#2563EB;"></span>
         </button>
+
+        <!-- Avatar -->
         {% if user.is_authenticated %}
-        <div class="w-8 h-8 rounded-full bg-ink-DEFAULT flex items-center justify-center cursor-pointer"
-             style="background:#0A0A0F;">
-          <span class="text-xs font-bold text-white">{{ user.username|first|upper }}</span>
+        <div class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer text-xs font-bold text-white"
+             style="background: linear-gradient(135deg, #7C3AED, #2563EB);">
+          {{ user.username|first|upper }}
         </div>
         {% endif %}
       </div>
     </header>
- 
+
     <!-- Page content -->
     <main class="flex-1 p-6 fade-in">
       {% block content %}{% endblock %}
     </main>
- 
+
   </div>
- 
+
   {% endblock %}
- 
-  <!-- Mobile sidebar overlay -->
+
+  <!-- Mobile overlay -->
   <div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-30 hidden lg:hidden"></div>
- 
+
   <script>
     const toggle = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');

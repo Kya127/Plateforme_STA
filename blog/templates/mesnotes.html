@@ -1,0 +1,381 @@
+
+{% extends 'ui/base.html' %}
+
+{% block title %}Mes notes — STA{% endblock %}
+{% block nav_mynotes %}active{% endblock %}
+
+{% block content %}
+
+<!-- ══════════ EN-TÊTE ══════════ -->
+<div class="mb-8">
+  <div class="flex items-center justify-between flex-wrap gap-4">
+    <div>
+      <h1 class="text-2xl font-display font-bold mb-1" style="color:#0A0A0F;">Mes notes</h1>
+      <p class="text-sm" style="color:#9898A8;">
+        {% if mes_notes %}
+          {{ mes_notes|length }} entrée{% if mes_notes|length > 1 %}s{% endif %} personnelle{% if mes_notes|length > 1 %}s{% endif %}
+        {% else %}
+          Aucune entrée pour le moment
+        {% endif %}
+      </p>
+    </div>
+
+    <!-- Contrôles : toggle vue + bouton créer -->
+    <div class="flex items-center gap-2">
+
+      <!-- Bouton vue liste -->
+      <button id="btn-list"
+              onclick="setView('list')"
+              title="Vue liste"
+              style="padding:8px; border-radius:10px; border:1px solid #E2E2EA;
+                     background:#fff; cursor:pointer; display:flex;
+                     align-items:center; justify-content:center; transition:all 0.18s;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="#9898A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="8" y1="6" x2="21" y2="6"/>
+          <line x1="8" y1="12" x2="21" y2="12"/>
+          <line x1="8" y1="18" x2="21" y2="18"/>
+          <line x1="3" y1="6" x2="3.01" y2="6"/>
+          <line x1="3" y1="12" x2="3.01" y2="12"/>
+          <line x1="3" y1="18" x2="3.01" y2="18"/>
+        </svg>
+      </button>
+
+      <!-- Bouton vue grille (actif par défaut) -->
+      <button id="btn-grid"
+              onclick="setView('grid')"
+              title="Vue grille"
+              style="padding:8px; border-radius:10px; border:1px solid #0A0A0F;
+                     background:#0A0A0F; cursor:pointer; display:flex;
+                     align-items:center; justify-content:center; transition:all 0.18s;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="1"/>
+          <rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/>
+          <rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+      </button>
+
+      <!-- Nouvelle entrée -->
+      <a href="{% url 'mesnotes' %}"
+         style="display:inline-flex; align-items:center; gap:6px; padding:8px 16px;
+                border-radius:10px; background:#0A0A0F; color:#fff; font-size:13px;
+                font-weight:600; text-decoration:none; transition:all 0.18s;
+                font-family:'DM Sans',sans-serif;"
+         onmouseover="this.style.background='#1C1C24'; this.style.transform='translateY(-1px)'"
+         onmouseout="this.style.background='#0A0A0F'; this.style.transform='translateY(0)'">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"/>
+          <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        Nouvelle entrée
+      </a>
+    </div>
+  </div>
+</div>
+
+
+{% if mes_notes %}
+
+<!-- ══════════ VUE GRILLE ══════════ -->
+<div id="view-grid"
+     style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; align-items:start;">
+
+  {% for note in mes_notes %}
+  <div style="display:flex; flex-direction:column; background:#fff; border-radius:1rem;
+              border:1px solid #E2E2EA; overflow:hidden;
+              transition:box-shadow 0.18s, transform 0.15s;"
+       onmouseover="this.style.boxShadow='0 4px 20px rgba(10,10,15,0.10)'; this.style.transform='translateY(-2px)'"
+       onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+
+    <!-- Image — hauteur fixe garantie -->
+    <div style="height:160px; background:#F4F4F7; overflow:hidden; flex-shrink:0;">
+      {% if note.image %}
+        <img src="{{ note.image.url }}"
+             alt="{{ note.titre }}"
+             style="width:100%; height:100%; object-fit:cover; transition:transform 0.35s;"
+             onmouseover="this.style.transform='scale(1.05)'"
+             onmouseout="this.style.transform='scale(1)'">
+      {% else %}
+        <div style="width:100%; height:100%; display:flex; flex-direction:column;
+                    align-items:center; justify-content:center; gap:6px;">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#D1D1DC"
+               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <p style="font-size:11px; color:#C7C7D4; margin:0;">Aucune image</p>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Contenu — toujours sous l'image -->
+    <div style="padding:14px 16px; display:flex; flex-direction:column; flex:1; gap:10px;">
+
+      <!-- Titre + date -->
+      <div>
+        <h3 style="margin:0 0 4px; font-size:14px; font-weight:600; color:#0A0A0F;
+                   line-height:1.35; display:-webkit-box; -webkit-line-clamp:2;
+                   -webkit-box-orient:vertical; overflow:hidden; font-family:'Syne',sans-serif;">
+          {{ note.titre }}
+        </h3>
+        <p style="margin:0; font-size:11px; color:#9898A8;">
+          {{ note.date_entree|timesince }} ago
+        </p>
+      </div>
+
+      <!-- Badge catégorie + Voir détail -->
+      <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+        <span style="font-size:11px; font-weight:500; padding:3px 10px; border-radius:99px;
+                     background:#EFF4FF; color:#1D4ED8;">
+          {{ note.categorie }}
+        </span>
+        <a href="{% url 'detailsnotes' note.pk %}"
+           style="font-size:11px; font-weight:500; color:#3D3D4E; text-decoration:none;
+                  padding:3px 10px; border-radius:99px; border:1px solid #E2E2EA;
+                  transition:background 0.15s;"
+           onmouseover="this.style.background='#F4F4F7'"
+           onmouseout="this.style.background='transparent'">
+          Voir détail
+        </a>
+      </div>
+
+      <!-- Séparateur -->
+      <div style="height:1px; background:#F4F4F7;"></div>
+
+      <!-- Actions modifier / supprimer -->
+      {% if user == note.auteur %}
+      <div style="display:flex; align-items:center; gap:4px;">
+        <a href="{% url 'updatenote' note.pk %}"
+           title="Modifier"
+           style="padding:6px; border-radius:8px; display:flex; text-decoration:none;
+                  transition:background 0.15s;"
+           onmouseover="this.style.background='#F4F4F7'"
+           onmouseout="this.style.background='transparent'">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D3D4E"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+        </a>
+        <a href="{% url 'deletenote' note.pk %}"
+           title="Supprimer"
+           style="padding:6px; border-radius:8px; display:flex; text-decoration:none;
+                  transition:background 0.15s;"
+           onmouseover="this.style.background='#FFF1F2'"
+           onmouseout="this.style.background='transparent'">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E11D48"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+            <path d="M10 11v6"/><path d="M14 11v6"/>
+          </svg>
+        </a>
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+  {% endfor %}
+
+  <!-- Carte + Nouvelle entrée -->
+  <a href="{% url 'mesnotes' %}"
+     style="display:flex; flex-direction:column; align-items:center; justify-content:center;
+            border-radius:1rem; border:2px dashed #D1D1DC; min-height:260px;
+            text-decoration:none; transition:all 0.2s;"
+     onmouseover="this.style.borderColor='#9898A8'; this.style.background='#FAFAFA'"
+     onmouseout="this.style.borderColor='#D1D1DC'; this.style.background='transparent'">
+    <div style="width:40px; height:40px; border-radius:10px; background:#F4F4F7;
+                display:flex; align-items:center; justify-content:center; margin-bottom:8px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9898A8"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"/>
+        <line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+    </div>
+    <p style="font-size:13px; font-weight:500; color:#9898A8; margin:0;">Nouvelle entrée</p>
+  </a>
+
+</div>
+
+
+<!-- ══════════ VUE LISTE ══════════ -->
+<div id="view-list" style="display:none; flex-direction:column; gap:10px;">
+
+  {% for note in mes_notes %}
+  <div style="display:flex; align-items:center; gap:14px; background:#fff;
+              border-radius:1rem; border:1px solid #E2E2EA; padding:12px 16px;
+              transition:box-shadow 0.18s, transform 0.15s;"
+       onmouseover="this.style.boxShadow='0 4px 16px rgba(10,10,15,0.08)'; this.style.transform='translateY(-1px)'"
+       onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+
+    <!-- Thumbnail -->
+    <div style="width:56px; height:56px; border-radius:10px; overflow:hidden;
+                background:#F4F4F7; flex-shrink:0;">
+      {% if note.image %}
+        <img src="{{ note.image.url }}" alt="{{ note.titre }}"
+             style="width:100%; height:100%; object-fit:cover;">
+      {% else %}
+        <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D1D1DC"
+               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Infos -->
+    <div style="flex:1; min-width:0;">
+      <h3 style="margin:0 0 3px; font-size:14px; font-weight:600; color:#0A0A0F;
+                 white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+                 font-family:'Syne',sans-serif;">
+        {{ note.titre }}
+      </h3>
+      <p style="margin:0; font-size:11px; color:#9898A8;">
+        {{ note.categorie }} · {{ note.date_entree|timesince }} ago
+      </p>
+    </div>
+
+    <!-- Badge catégorie -->
+    <span style="font-size:11px; font-weight:500; padding:3px 10px; border-radius:99px;
+                 background:#EFF4FF; color:#1D4ED8; white-space:nowrap; flex-shrink:0;">
+      {{ note.categorie }}
+    </span>
+
+    <!-- Actions -->
+    <div style="display:flex; align-items:center; gap:4px; flex-shrink:0;">
+      <a href="{% url 'detailsnotes' note.pk %}"
+         style="font-size:11px; font-weight:500; color:#3D3D4E; text-decoration:none;
+                padding:5px 10px; border-radius:8px; border:1px solid #E2E2EA;
+                transition:background 0.15s; white-space:nowrap;"
+         onmouseover="this.style.background='#F4F4F7'"
+         onmouseout="this.style.background='transparent'">
+        Voir détail
+      </a>
+      {% if user == note.auteur %}
+      <a href="{% url 'updatenote' note.pk %}"
+         title="Modifier"
+         style="padding:6px; border-radius:8px; display:flex; text-decoration:none;
+                transition:background 0.15s;"
+         onmouseover="this.style.background='#F4F4F7'"
+         onmouseout="this.style.background='transparent'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D3D4E"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+        </svg>
+      </a>
+      <a href="{% url 'deletenote' note.pk %}"
+         title="Supprimer"
+         style="padding:6px; border-radius:8px; display:flex; text-decoration:none;
+                transition:background 0.15s;"
+         onmouseover="this.style.background='#FFF1F2'"
+         onmouseout="this.style.background='transparent'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E11D48"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3 6 5 6 21 6"/>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+          <path d="M10 11v6"/><path d="M14 11v6"/>
+        </svg>
+      </a>
+      {% endif %}
+    </div>
+
+  </div>
+  {% endfor %}
+
+</div>
+
+
+{% else %}
+<!-- ══════════ EMPTY STATE ══════════ -->
+<div style="display:flex; flex-direction:column; align-items:center; justify-content:center;
+            padding:6rem 2rem; background:#fff; border-radius:1.25rem; border:1px solid #E2E2EA;">
+  <div style="width:64px; height:64px; border-radius:1rem; background:#F4F4F7;
+              display:flex; align-items:center; justify-content:center; margin-bottom:1rem;">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C7C7D4"
+         stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/>
+      <line x1="12" y1="18" x2="12" y2="12"/>
+      <line x1="9" y1="15" x2="15" y2="15"/>
+    </svg>
+  </div>
+  <h3 style="font-size:16px; font-weight:700; color:#0A0A0F; margin:0 0 6px;
+             font-family:'Syne',sans-serif;">Aucune note pour le moment</h3>
+  <p style="font-size:13px; color:#9898A8; margin:0 0 1.25rem; text-align:center; max-width:280px;">
+    Créez votre première entrée d'activité pour commencer à suivre vos notes.
+  </p>
+  <a href="{% url 'mesnotes' %}"
+     style="display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600;
+            padding:10px 20px; border-radius:10px; background:#0A0A0F; color:#fff;
+            text-decoration:none; transition:all 0.18s;"
+     onmouseover="this.style.background='#1C1C24'; this.style.transform='translateY(-1px)'"
+     onmouseout="this.style.background='#0A0A0F'; this.style.transform='translateY(0)'">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19"/>
+      <line x1="5" y1="12" x2="19" y2="12"/>
+    </svg>
+    Créer une entrée
+  </a>
+</div>
+{% endif %}
+
+
+<!-- ══════════ SCRIPT TOGGLE VUE ══════════ -->
+<script>
+  function setView(v) {
+    const grid    = document.getElementById('view-grid');
+    const list    = document.getElementById('view-list');
+    const btnGrid = document.getElementById('btn-grid');
+    const btnList = document.getElementById('btn-list');
+
+    if (v === 'grid') {
+      // Afficher grille
+      grid.style.display = 'grid';
+      list.style.display = 'none';
+      // Bouton grille actif
+      btnGrid.style.background    = '#0A0A0F';
+      btnGrid.style.borderColor   = '#0A0A0F';
+      btnGrid.querySelector('svg').style.stroke = '#fff';
+      // Bouton liste inactif
+      btnList.style.background    = '#fff';
+      btnList.style.borderColor   = '#E2E2EA';
+      btnList.querySelector('svg').style.stroke = '#9898A8';
+    } else {
+      // Afficher liste
+      grid.style.display = 'none';
+      list.style.display = 'flex';
+      // Bouton liste actif
+      btnList.style.background    = '#0A0A0F';
+      btnList.style.borderColor   = '#0A0A0F';
+      btnList.querySelector('svg').style.stroke = '#fff';
+      // Bouton grille inactif
+      btnGrid.style.background    = '#fff';
+      btnGrid.style.borderColor   = '#E2E2EA';
+      btnGrid.querySelector('svg').style.stroke = '#9898A8';
+    }
+    // Mémoriser le choix
+    localStorage.setItem('sta_notes_view', v);
+  }
+
+  // Restaurer la vue choisie au chargement
+  document.addEventListener('DOMContentLoaded', function() {
+    const saved = localStorage.getItem('sta_notes_view') || 'grid';
+    setView(saved);
+  });
+</script>
+
+{% endblock %}
+ENDOFFILE
+echo "Done"
+Sortie
+
+Done

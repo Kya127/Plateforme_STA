@@ -7,10 +7,19 @@
 
 <!-- ───────── HEADER ───────── -->
 <div class="mb-6">
-  <h1 class="text-2xl font-display font-bold" style="color:#0A0A0F;">
-    Journal des activités
-  </h1>
-  <p class="text-sm mt-1" style="color:#9898A8;">
+  {% if user.is_authenticated %}
+   <div style="display:flex; align-items:center; gap:10px; padding:10px 16px;">
+  
+   <div>
+    <div style="display:flex; align-items:center; gap:6px;">
+    
+      <p style="margin:0; font-size:3.5rem; font-weight:500; color:#0A0A0F;">Bonjour <strong  style="color:#2563EB";>{{ user.username }}!</strong></p>
+    </div>
+    <p style="text-sm mt-1; color:#0A0A0F;">Bienvenue sur votre espace de travail</p>
+   </div>
+  </div>
+ {% endif %}
+  <p class="text-sm mt-1" style="color:#9898A8; padding:10px 16px;">
     Suivi complet des entrées enregistrées dans la plateforme STA.
   </p>
 </div>
@@ -19,27 +28,33 @@
 <form method="GET" class="mb-8 flex flex-col sm:flex-row gap-3">
 
   <!-- SEARCH -->
-  <input type="text"
-         name="search"
-         placeholder="Rechercher une activité..."
-         value="{{ request.GET.search }}"
-         class="px-4 py-2 rounded-xl border w-full"
-         style="border-color:#E2E2EA;">
+  <div style="position:relative; width:100%;">
+    <!-- Icône loupe -->
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+         stroke="#9898A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+         style="position:absolute; left:14px; top:50%; transform:translateY(-50%); pointer-events:none;">
+      <circle cx="11" cy="11" r="8"/>
+      <path d="m21 21-4.35-4.35"/>
+    </svg>
+    <input type="text"
+           name="search"
+           placeholder="Rechercher une activité..."
+           value="{{ request.GET.search }}"
+           class="px-4 py-2 rounded-xl border w-full"
+           style="border-color:#E2E2EA; padding-left:38px;">
+  </div>
 
   <!-- FILTER CATEGORIE -->
   <select name="categorie"
           class="px-4 py-2 rounded-xl border"
           style="border-color:#E2E2EA;">
-
     <option value="">Toutes catégories</option>
-
     {% for cat in categories %}
       <option value="{{ cat }}"
         {% if request.GET.categorie == cat %}selected{% endif %}>
         {{ cat }}
       </option>
     {% endfor %}
-
   </select>
 
   <!-- BUTTON -->
